@@ -32,10 +32,7 @@ public class FileResourcePackProviderMixin {
 	}
 
 	@Inject(method = "register", at = @At("HEAD"))
-	public void register(
-		Consumer<ResourcePackProfile> adder,
-		CallbackInfo ci
-	) throws ExecutionException, InterruptedException {
+	public void register(Consumer<ResourcePackProfile> adder, ResourcePackProfile.Factory factory, CallbackInfo ci) throws ExecutionException, InterruptedException {
 		List<ResourcePack> list = new ArrayList<>();
 		ARRP.waitForPregen();
 		ARRP_LOGGER.info("ARRP register - before user");
