@@ -3,6 +3,7 @@ package net.devtech.arrp.mixin;
 import net.devtech.arrp.ARRP;
 import net.devtech.arrp.api.RRPCallback;
 import net.minecraft.resource.*;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.LogManager;
@@ -41,9 +42,9 @@ public class FileResourcePackProviderMixin {
 		RRPCallback.BEFORE_USER.invoker().insert(list);
 
 		for (ResourcePack pack : list) {
-			adder.accept(ResourcePackProfile.create(
+			adder.accept(ResourcePackProfile.of(
 				pack.getName(),
-				Text.literal(pack.getName()),
+				new LiteralText(pack.getName()),
 				false,
 				(name) -> pack,
 				this.type,

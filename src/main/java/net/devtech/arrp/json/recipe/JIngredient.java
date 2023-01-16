@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class JIngredient implements Cloneable {
 	}
 
 	public JIngredient item(Item item) {
-		return this.item(Registries.ITEM.getId(item).toString());
+		return this.item(Registry.ITEM.getId(item).toString());
 	}
 
 	public JIngredient item(String id) {
