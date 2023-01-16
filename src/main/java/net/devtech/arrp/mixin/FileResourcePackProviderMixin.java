@@ -5,6 +5,7 @@ import net.devtech.arrp.api.RRPCallback;
 import net.minecraft.resource.*;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,13 +23,12 @@ import java.util.function.UnaryOperator;
 
 @Mixin(FileResourcePackProvider.class)
 public class FileResourcePackProviderMixin {
-	@Shadow @Final private ResourceType type;
 	private static final ResourcePackSource RUNTIME = ResourcePackSource.create(getSourceTextSupplier(), true);
 	private static final Logger ARRP_LOGGER = LogManager.getLogger("ARRP/FileResourcePackProviderMixin");
 
 	private static UnaryOperator<Text> getSourceTextSupplier() {
-		Text text = Text.translatable("pack.source.runtime");
-		return name -> Text.translatable("pack.nameAndSource", name, text).formatted(Formatting.GRAY);
+		Text text = new TranslatableText("pack.source.runtime");
+		return name -> new TranslatableText("pack.nameAndSource", name, text).formatted(Formatting.GRAY);
 	}
 
 	@Inject(method = "register", at = @At("HEAD"))
@@ -41,10 +41,9 @@ public class FileResourcePackProviderMixin {
 		for (ResourcePack pack : list) {
 			adder.accept(ResourcePackProfile.of(
 				pack.getName(),
-				new LiteralText(pack.getName()),
 				false,
-				(name) -> pack,
-				this.type,
+				() -> pack,
+				factory,
 				ResourcePackProfile.InsertionPosition.TOP,
 				RUNTIME
 			));
