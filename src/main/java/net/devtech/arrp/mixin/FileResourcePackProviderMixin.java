@@ -23,13 +23,8 @@ import java.util.function.UnaryOperator;
 
 @Mixin(FileResourcePackProvider.class)
 public class FileResourcePackProviderMixin {
-	private static final ResourcePackSource RUNTIME = ResourcePackSource.create(getSourceTextSupplier(), true);
+	private static final ResourcePackSource RUNTIME = ResourcePackSource.nameAndSource("pack.source.runtime");
 	private static final Logger ARRP_LOGGER = LogManager.getLogger("ARRP/FileResourcePackProviderMixin");
-
-	private static UnaryOperator<Text> getSourceTextSupplier() {
-		Text text = new TranslatableText("pack.source.runtime");
-		return name -> new TranslatableText("pack.nameAndSource", name, text).formatted(Formatting.GRAY);
-	}
 
 	@Inject(method = "register", at = @At("HEAD"))
 	public void register(Consumer<ResourcePackProfile> adder, ResourcePackProfile.Factory factory, CallbackInfo ci) throws ExecutionException, InterruptedException {

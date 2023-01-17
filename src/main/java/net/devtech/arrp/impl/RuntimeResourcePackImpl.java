@@ -437,6 +437,14 @@ public class RuntimeResourcePackImpl implements RuntimeResourcePack, ResourcePac
 	}
 
 	@Override
+	public boolean contains(ResourceType type, Identifier id) {
+		this.lock();
+		boolean contains = this.getSys(type).containsKey(id);
+		this.waiting.unlock();
+		return contains;
+	}
+
+	@Override
 	public Set<String> getNamespaces(ResourceType type) {
 		this.lock();
 		Set<String> namespaces = new HashSet<>();
