@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.devtech"
-version = System.getenv("ARRP_VERSION") ?: ${mod_version}
+version = ${mod_version}
 
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
