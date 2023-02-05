@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.devtech"
-version = ${mod_version}
+version = "${project.mod_version}"
 
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
