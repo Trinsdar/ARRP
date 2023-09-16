@@ -424,11 +424,11 @@ public class RuntimeResourcePackImpl implements RuntimeResourcePack, ResourcePac
 	}
 
 	@Override
-	public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, int maxDepth, Predicate<String> pathFilter) {
+	public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, Predicate<Identifier> pathFilter) {
 		this.lock();
 		Set<Identifier> identifiers = new HashSet<>();
 		for(Identifier identifier : this.getSys(type).keySet()) {
-			if(identifier.getNamespace().equals(namespace) && identifier.getPath().startsWith(prefix) && pathFilter.test(identifier.getPath())) {
+			if(identifier.getNamespace().equals(namespace) && identifier.getPath().startsWith(prefix) && pathFilter.test(identifier)) {
 				identifiers.add(identifier);
 			}
 		}
