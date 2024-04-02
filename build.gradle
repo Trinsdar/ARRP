@@ -4,8 +4,11 @@ plugins {
     id("maven-publish")
 }
 
-group = "net.devtech"
+group = "io.github.trinsdar"
 version = "${project.mod_version}"
+
+def isCI = System.getenv("GITHUB_ACTION")
+def isRELEASE = System.getenv("GITHUB_RELEASE")
 
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
@@ -52,19 +55,16 @@ publishing {
     }
 
     repositories {
-        maven {
-            name = "Project"
-            url = uri("${buildDir}/repo")
-        }
-
-        maven {
-            credentials {
-                username = ""
-                password = System.getenv("MODMAVEN")
+        if (isCI && isRELEASE) {
+            maven {
+                url = "https://repo.repsy.io/mvn/trinsdar/trins-mods/"
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_PASSWORD")
+                }
             }
-
-            name = "Modmaven"
-            url = "https://modmaven.dev/artifactory/local-releases/"
+        } else {
+            mavenLocal()
         }
     }
 }
