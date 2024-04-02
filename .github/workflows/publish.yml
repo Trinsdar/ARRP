@@ -21,19 +21,14 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Build
-        run: ./gradlew build
+      - name: Build & Publish
+        run: ./gradlew build publish --stacktrace
         env:
-          ARRP_VERSION: ${{ github.event.release.tag_name }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          GITHUB_RELEASE: true
       - name: Upload Release Artifact
         uses: softprops/action-gh-release@v1
         with:
           files: build/libs/arrp-${{ github.event.release.tag_name }}.jar
           tag_name: ${{ github.event.release.tag_name }}
-      - name: Upload to external sites
-        run: ./gradlew curseforge modrinth publishAllPublicationsToModmavenRepository
-        env:
-          ARRP_VERSION: ${{ github.event.release.tag_name }}
-          CURSEFORGE: ${{ secrets.CURSEFORGE }}
-          MODRINTH: ${{ secrets.MODRINTH }}
-          MODMAVEN: ${{ secrets.MODMAVEN }}
