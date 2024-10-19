@@ -4,7 +4,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "io.github.trinsdar"
+group = "dev.trinsdar"
 version = "${project.mod_version}"
 
 def isCI = System.getenv("GITHUB_ACTION")
