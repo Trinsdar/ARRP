@@ -7,8 +7,7 @@ plugins {
 group = "dev.trinsdar"
 version = "${project.mod_version}"
 
-def isCI = System.getenv("GITHUB_ACTION")
-def isRELEASE = System.getenv("GITHUB_RELEASE")
+def isCI = System.getenv("CI")
 
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
@@ -55,13 +54,9 @@ publishing {
     }
 
     repositories {
-        if (isCI && isRELEASE) {
+        if (isCI) {
             maven {
-                url = "https://repo.repsy.io/mvn/trinsdar/trins-mods/"
-                credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
-                }
+                url System.getenv("local_maven_url")
             }
         } else {
             mavenLocal()
